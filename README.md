@@ -304,7 +304,7 @@ agregue por medio de la interfaz administrativa, los siguientes Productos:
     ```bash
     python manage.py migrate
 
-## Parte4
+## Parte 4
 
 33. Creamos las vistas laboratorio/views.py
     ```bash
