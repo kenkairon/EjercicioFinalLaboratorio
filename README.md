@@ -483,6 +483,6 @@ agregue por medio de la interfaz administrativa, los siguientes Productos:
         path('',include('laboratorio.urls')),
     ]
 
-40. Accedemos a las ruta principal [127.0.0.1](http://127.0.0.1:8000/)
+40. Accedemos a las ruta principal (http://127.0.0.1:8000/)
     ```bash
     python manage.py runserver
