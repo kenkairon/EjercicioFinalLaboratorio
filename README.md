@@ -170,24 +170,20 @@ Educativo y de Aprendizaje Personal
 ## Parte 2 
 20. Adecue el sitio administrativo de Django agregando los modelos Laboratorio, director general,
 y Productos, para que se muestre de la siguiente manera:
-
-![Administracion](images/administracion.png)
 <p align="center">
-  <img src="images/administracion.png" alt="Administracion" width="400">
+  <img src="images/administracion.png" alt="Administracion" width="600">
 </p>
 
 21. Adecue la interfaz administrativa con la finalidad de que se observe de la siguiente manera, y
 agregue los siguientes Laboratorios:
 
-![Laboratorios](images/laboratorios.png)
 <p align="center">
-  <img src="images/laboratorios.png" alt="Laboratorios" width="400">
+  <img src="images/laboratorios.png" alt="Laboratorios" width="600">
 </p>
 
 22. Adecue la interfaz administrativa con la finalidad de que se observe de la siguiente manera, y
 agregue por medio de la interfaz administrativa, los siguientes directores generales:
 
-![Directores](images/directores.png)
 <p align="center">
-  <img src="images/directores.png" alt="directores" width="400">
+  <img src="images/directores.png" alt="directores" width="600">
 </p>
