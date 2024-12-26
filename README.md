@@ -9,8 +9,8 @@ Educativo y de Aprendizaje Personal
 - [Configuración Inicial](#configuración-inicial)
 - [Pasos del Proyecto](#pasos-del-proyecto)
 - [Configuración Base de datos](#configuración-Base-de-datos)
-  - [Configuración del Proyecto](#configuración-del-proyecto)
   - [Creación del Modelo ](#creación-del-modelo)
+  - [Creamos el superusuario](#creamos-el-superusuario)
 ---
 
 ## Requisitos
