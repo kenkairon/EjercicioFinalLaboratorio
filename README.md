@@ -13,6 +13,7 @@ Educativo y de Aprendizaje Personal
   - [Creamos el superusuario](#creamos-el-superusuario)
   - [Parte 2](#parte-2)
   - [Parte 3](#parte-3)
+  - [Parte 4](#parte-4)
 ---
 
 ## Requisitos
@@ -303,3 +304,185 @@ agregue por medio de la interfaz administrativa, los siguientes Productos:
     ```bash
     python manage.py migrate
 
+## Parte4
+
+33. Creamos las vistas laboratorio/views.py
+    ```bash
+    from django.views.generic import ListView
+    from django.views.generic import DetailView
+    from django.views.generic import CreateView, UpdateView, DeleteView, FormView
+    from django.urls import reverse_lazy
+    from .models import Laboratorio
+
+    class ListarLaboratorio(ListView):
+        model = Laboratorio
+        template_name ='laboratorio/lista_laboratorio.html'
+        context_object_name = 'laboratorios'
+        
+
+    class DetalleLaboratorio( DetailView):
+        model = Laboratorio
+        template_name ='laboratorio/laboratorio.html'
+        context_object_name = 'laboratorio'
+        
+    class CrearLaboratorio(CreateView):
+        model = Laboratorio
+        fields = ['nombre', 'ciudad', 'pais'] 
+        success_url = reverse_lazy('laboratorios')
+        template_name = 'laboratorio/formulario_laboratorio.html'  # Nueva plantilla compartida
+
+        def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['titulo'] = "Ingresar Laboratorio"  # Título para la página
+            context['boton_texto'] = "Crear"  # Texto del botón
+            return context
+        
+    class EditarLaboratorio(UpdateView):
+        model = Laboratorio
+        fields = ['nombre', 'ciudad', 'pais'] 
+        success_url = reverse_lazy('laboratorios')
+        template_name = 'laboratorio/formulario_laboratorio.html'  # Nueva plantilla compartida
+
+        def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['titulo'] = "Actualizar Laboratorio"  # Título para la página
+            context['boton_texto'] = "Actualizar"  # Texto del botón
+            return context
+        
+    class EliminarLaboratorio(DeleteView):
+        model = Laboratorio
+        template_name ='laboratorio/eliminar_laboratorio.html'
+        context_object_name = 'laboratorio'
+        success_url = reverse_lazy('laboratorios')
+
+34. Se crean los templates/laboratorio/ lista_laboratorios.html
+    ```bash
+    {% load static %}
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <title>Lista de Laboratorios</title>
+    </head>
+
+    <body>
+        <div class="barra-superior">
+            <a id="enlace-agregar" href="{% url 'crear-laboratorio' %}">Agregar laboratorio</a>
+        </div>
+
+        <h2>Información de Laboratorios</h2>
+        <div class="cuerpo-tarjeta">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Ciudad</th>
+                        <th>País</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for laboratorio in laboratorios %}
+                    <tr>
+                        <td>{{ laboratorio.nombre }}</td>
+                        <td>{{ laboratorio.ciudad }}</td>
+                        <td>{{ laboratorio.pais }}</td>
+                        <td><a href="{% url 'editar-laboratorio' laboratorio.id %}">Actualizar</a></td>
+                        <td><a href="{% url 'eliminar-laboratorio' laboratorio.id %}">Eliminar</a></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5">No hay elementos en esta lista</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <p>¿Información de los Laboratorios?</p>
+            <a href="{% url 'laboratorios' %}">Ir a la página de inicio</a>
+            <p>Usted ha visitado esta página {{ contador_visitas }} veces.</p>
+        </footer>
+    </body>
+
+    </html>
+
+35. Se crean los templates/laboratorio/laboratorio.html
+    ```bash
+    <h1>laboratorio: {{laboratorio}}</h1>
+
+36. Se crea los templates/laboratorio/formulario_laboratorio.html
+    ```bash
+    {% load static %}
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'css/styles2.css' %}">
+        <title>Lista de Laboratorios</title>
+    </head>
+
+    <body>
+        {% block content %}
+        <div class="barra-superior">
+            <a href="{% url 'laboratorios' %}">&#x1F860; Volver</a>
+        </div>
+        <div class="cuerpo-tarjeta">
+            <h1>{{ titulo }}</h1> <!-- Título dinámico -->
+            <form method="POST" action="">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input class="boton" type="submit" value="{{ boton_texto }}"> <!-- Texto del botón -->
+            </form>
+        </div>
+        {% endblock content %}
+    </body>
+
+    </html>
+
+37. templates/laboratorio/eliminar_laboratorio.html
+    ```bash
+    {% block content %}
+    <div class="cuerpo-tarjeta">
+        <form method="POST">
+            {% csrf_token %}
+            <p>Estas seguro que deseas eliminar el laboratorio: "{{laboratorio}}"</p>
+            <input class='boton' type="submit" value="Confirm">
+        </form>
+    </div>
+    <div class="barra-superior">
+        <a href="{% url 'laboratorios' %}">&#x1F860; Retornar</a>
+    </div>
+    {% endblock content %}
+
+38. Configuración de  urls  laborario/urls.py
+    ```bash
+    from django.urls import path
+    from .views import ListarLaboratorio, CrearLaboratorio, EditarLaboratorio, EliminarLaboratorio
+
+    urlpatterns = [
+        path('', ListarLaboratorio.as_view(), name='laboratorios'),
+        path('crear/', CrearLaboratorio.as_view(), name='crear-laboratorio'),
+        path('editar/<int:pk>/', EditarLaboratorio.as_view(), name='editar-laboratorio'),
+        path('eliminar/<int:pk>/', EliminarLaboratorio.as_view(), name='eliminar-laboratorio'),
+    ]
+39. Configuración de urls de config/practica_final_orm_django/practica_final_orm_orm
+    ```bash
+    from django.contrib import admin
+    from django.urls import path, include
+
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('',include('laboratorio.urls')),
+    ]
+
+40. Accedemos a las ruta principal [127.0.0.1](http://127.0.0.1:8000/)
+    ```bash
+    python manage.py runserver

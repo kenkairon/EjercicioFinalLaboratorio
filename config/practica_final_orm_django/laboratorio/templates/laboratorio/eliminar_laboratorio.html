@@ -1,0 +1,12 @@
+{% block content %}
+<div class="cuerpo-tarjeta">
+    <form method="POST">
+        {% csrf_token %}
+        <p>Estas seguro que deseas eliminar el laboratorio: "{{laboratorio}}"</p>
+        <input class='boton' type="submit" value="Confirm">
+    </form>
+</div>
+<div class="barra-superior">
+    <a href="{% url 'laboratorios' %}">&#x1F860; Retornar</a>
+</div>
+{% endblock content %}

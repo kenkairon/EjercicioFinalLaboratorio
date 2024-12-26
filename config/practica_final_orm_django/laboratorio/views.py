@@ -1,3 +1,60 @@
-from django.shortcuts import render
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from .models import Laboratorio
 
-# Create your views here.
+class ListarLaboratorio(ListView):
+    model = Laboratorio
+    template_name = 'laboratorio/lista_laboratorio.html'
+    context_object_name = 'laboratorios'
+
+class DetalleLaboratorio(DetailView):
+    model = Laboratorio
+    template_name = 'laboratorio/laboratorio.html'
+    context_object_name = 'laboratorio'
+
+class CrearLaboratorio(CreateView):
+    model = Laboratorio
+    fields = ['nombre', 'ciudad', 'pais']
+    success_url = reverse_lazy('laboratorios')
+    template_name = 'laboratorio/formulario_laboratorio.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Ingresar Laboratorio"
+        context['boton_texto'] = "Crear"
+        return context
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['nombre'].widget.attrs.update({'placeholder': 'Ingrese el nombre del laboratorio'})
+        form.fields['ciudad'].widget.attrs.update({'placeholder': 'Ingrese la ciudad del laboratorio'})
+        form.fields['pais'].widget.attrs.update({'placeholder': 'Ingrese el país del laboratorio'})
+        return form
+
+class EditarLaboratorio(UpdateView):
+    model = Laboratorio
+    fields = ['nombre', 'ciudad', 'pais']
+    success_url = reverse_lazy('laboratorios')
+    template_name = 'laboratorio/formulario_laboratorio.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = "Actualizar Laboratorio"
+        context['boton_texto'] = "Actualizar"
+        return context
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['nombre'].widget.attrs.update({'placeholder': 'Actualice el nombre del laboratorio'})
+        form.fields['ciudad'].widget.attrs.update({'placeholder': 'Actualice la ciudad del laboratorio'})
+        form.fields['pais'].widget.attrs.update({'placeholder': 'Actualice el país del laboratorio'})
+        return form
+
+class EliminarLaboratorio(DeleteView):
+    model = Laboratorio
+    template_name = 'laboratorio/eliminar_laboratorio.html'
+    context_object_name = 'laboratorio'
+    success_url = reverse_lazy('laboratorios')
+
+    
+

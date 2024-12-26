@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>Lista de Laboratorios</title>
+</head>
+
+<body>
+    <div class="barra-superior">
+        <a id="enlace-agregar" href="{% url 'crear-laboratorio' %}">Agregar laboratorio</a>
+    </div>
+
+    <h2>Información de Laboratorios</h2>
+    <div class="cuerpo-tarjeta">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Ciudad</th>
+                    <th>País</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for laboratorio in laboratorios %}
+                <tr>
+                    <td>{{ laboratorio.nombre }}</td>
+                    <td>{{ laboratorio.ciudad }}</td>
+                    <td>{{ laboratorio.pais }}</td>
+                    <td><a href="{% url 'editar-laboratorio' laboratorio.id %}">Actualizar</a></td>
+                    <td><a href="{% url 'eliminar-laboratorio' laboratorio.id %}">Eliminar</a></td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No hay elementos en esta lista</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>¿Información de los Laboratorios?</p>
+        <a href="{% url 'laboratorios' %}">Ir a la página de inicio</a>
+        <p>Usted ha visitado esta página {{ contador_visitas }} veces.</p>
+    </footer>
+</body>
+
+</html>
