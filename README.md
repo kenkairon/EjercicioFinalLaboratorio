@@ -113,7 +113,9 @@ Educativo y de Aprendizaje Personal
 14. en config/practica_final_orm_laboratorio/laboratoio/models.py
     ```bash
     from django.db import models
-
+    from django.core.exceptions import ValidationError
+    from datetime import date
+    
     class Laboratorio(models.Model):
         nombre = models.CharField(max_length=255)
 
@@ -129,13 +131,19 @@ Educativo y de Aprendizaje Personal
 
     class Producto(models.Model):
         nombre = models.CharField(max_length=255)
-        laboratorio = models.ForeignKey(Laboratorio, on_delete=models.CASCADE)
-        f_fabricacion = models.DateField()
+        laboratorio = models.ForeignKey('Laboratorio', on_delete=models.CASCADE)
+        f_fabricacion = models.DateField(null=True, blank=True)  
         p_costo = models.DecimalField(max_digits=12, decimal_places=2)
         p_venta = models.DecimalField(max_digits=12, decimal_places=2)
 
+        def clean(self):
+            if self.f_fabricacion:  # Validar solo si f_fabricacion no es None
+                if self.f_fabricacion < date(2015, 1, 1):
+                    raise ValidationError("La fecha de fabricación no puede ser anterior a 2015.")
+
         def __str__(self):
             return self.nombre
+
 
 15. Aplicar Migraciones 
     ```bash
@@ -186,4 +194,11 @@ agregue por medio de la interfaz administrativa, los siguientes directores gener
 
 <p align="center">
   <img src="images/directores.png" alt="directores" width="600">
+</p>
+
+23. Adecue la interfaz administrativa con la finalidad de que se observe de la siguiente manera, y
+agregue por medio de la interfaz administrativa, los siguientes Productos:
+
+<p align="center">
+  <img src="images/productos.png" alt="productos" width="600">
 </p>
