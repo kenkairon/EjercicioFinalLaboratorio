@@ -165,3 +165,9 @@ Educativo y de Aprendizaje Personal
 19. Nos Vamos a la pagina 127.0.0.1/admin
     ```bash
     python manage.py runserver
+
+## Parte 2 
+20. Adecue el sitio administrativo de Django agregando los modelos Laboratorio, director general,
+y Productos, para que se muestre de la siguiente manera:
+
+![Administracion](images/administracion.png)
