@@ -214,7 +214,7 @@ agregue por medio de la interfaz administrativa, los siguientes Productos:
     ```bash
     from laboratorio.models import Laboratorio, DirectorGeneral, Producto
 
-26. Realizar las consultas Consulta 1: Obtener todos los objetos de Laboratorio, DirectorGeneral, y Producto
+26. Realizar las consultas Consulta 1: Obtener todos los objetos de Laboratorio, DirectorGeneral, y Producto (Eliminar los espacios a los lados)
     ```bash
     # Todos los objetos de Laboratorio
     laboratorios = Laboratorio.objects.all()
