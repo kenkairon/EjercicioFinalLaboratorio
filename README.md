@@ -152,7 +152,7 @@ Educativo y de Aprendizaje Personal
     admin@gmail.com
     admin1234
     y
-18. config/practica_final_orm_djago/laboratorio/admin.py
+18. config/practica_final_orm_django/laboratorio/admin.py
     ```bash
     from django.contrib import admin
     from .models import Laboratorio, DirectorGeneral, Producto
