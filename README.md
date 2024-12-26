@@ -174,7 +174,7 @@ Educativo y de Aprendizaje Personal
     admin.site.register(DirectorGeneral)
     admin.site.register(Producto)
 
-19. Nos Vamos a la pagina 127.0.0.1/admin
+19. Nos Vamos a la pagina 127.0.0.1:8000/admin
     ```bash
     python manage.py runserver
 
