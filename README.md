@@ -55,6 +55,7 @@ Educativo y de Aprendizaje Personal
 
 6. Crear el Proyecto
     ```bash
+    cd config
     django-admin startproject practica_final_orm_django
 
 7. Ingresar al directorio del Proyecto
