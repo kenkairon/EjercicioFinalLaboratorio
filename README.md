@@ -11,6 +11,7 @@ Educativo y de Aprendizaje Personal
 - [Configuración Base de datos](#configuración-Base-de-datos)
   - [Creación del Modelo ](#creación-del-modelo)
   - [Creamos el superusuario](#creamos-el-superusuario)
+  - [Parte2](#parte2)
 ---
 
 ## Requisitos
@@ -171,3 +172,22 @@ Educativo y de Aprendizaje Personal
 y Productos, para que se muestre de la siguiente manera:
 
 ![Administracion](images/administracion.png)
+<p align="center">
+  <img src="images/administracion.png" alt="Administracion" width="400">
+</p>
+
+21. Adecue la interfaz administrativa con la finalidad de que se observe de la siguiente manera, y
+agregue los siguientes Laboratorios:
+
+![Laboratorios](images/laboratorios.png)
+<p align="center">
+  <img src="images/laboratorios.png" alt="Laboratorios" width="400">
+</p>
+
+22. Adecue la interfaz administrativa con la finalidad de que se observe de la siguiente manera, y
+agregue por medio de la interfaz administrativa, los siguientes directores generales:
+
+![Directores](images/directores.png)
+<p align="center">
+  <img src="images/directores.png" alt="directores" width="400">
+</p>
