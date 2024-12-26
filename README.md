@@ -115,7 +115,7 @@ Educativo y de Aprendizaje Personal
     from django.db import models
     from django.core.exceptions import ValidationError
     from datetime import date
-    
+
     class Laboratorio(models.Model):
         nombre = models.CharField(max_length=255)
 
@@ -202,3 +202,47 @@ agregue por medio de la interfaz administrativa, los siguientes Productos:
 <p align="center">
   <img src="images/productos.png" alt="productos" width="600">
 </p>
+
+24. Por medio de la consola interpretador de python (shell), realice las siguientes consultas:
+    ```bash
+    python manage.py shell
+
+25. Importar los modelos
+    ```bash
+    from laboratorio.models import Laboratorio, DirectorGeneral, Producto
+
+26. Realizar las consultas Consulta 1: Obtener todos los objetos de Laboratorio, DirectorGeneral, y Producto
+    ```bash
+    # Todos los objetos de Laboratorio
+    laboratorios = Laboratorio.objects.all()
+    print("Laboratorios:", laboratorios)
+
+    # Todos los objetos de DirectorGeneral
+    directores = DirectorGeneral.objects.all()
+    print("Directores Generales:", directores)
+
+    # Todos los objetos de Producto
+    productos = Producto.objects.all()
+    print("Productos:", productos)
+
+
+27. Consulta 2: Obtener el laboratorio del Producto cuyo nombre es ‘Producto 1’
+    ```bash
+    producto = Producto.objects.get(nombre='Producto1') 
+    laboratorio = producto.laboratorio  
+    print("Laboratorio de Producto 1:", laboratorio)
+
+28. Consulta 3: Ordenar todos los productos por nombre y mostrar nombre y laboratorio
+    ```bash
+    productos_ordenados = Producto.objects.order_by('nombre') 
+    for producto in productos_ordenados:
+        print(f"Nombre: {producto.nombre}, Laboratorio: {producto.laboratorio}")
+
+29. Consulta 4: Mostrar los laboratorios de todos los productos
+    ```bash
+    productos = Producto.objects.all()  
+    for producto in productos:
+        print(f"Producto: {producto.nombre}, Laboratorio: {producto.laboratorio}")
+
+
+
