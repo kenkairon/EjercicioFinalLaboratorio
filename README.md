@@ -11,8 +11,8 @@ Educativo y de Aprendizaje Personal
 - [Configuración Base de datos](#configuración-Base-de-datos)
   - [Creación del Modelo ](#creación-del-modelo)
   - [Creamos el superusuario](#creamos-el-superusuario)
-  - [Parte2](#parte2)
-  - [Parte3](#parte3)
+  - [Parte 2](#parte-2)
+  - [Parte 3](#parte-3)
 ---
 
 ## Requisitos
