@@ -12,6 +12,7 @@ Educativo y de Aprendizaje Personal
   - [Creación del Modelo ](#creación-del-modelo)
   - [Creamos el superusuario](#creamos-el-superusuario)
   - [Parte2](#parte2)
+  - [Parte3](#parte3)
 ---
 
 ## Requisitos
@@ -244,5 +245,61 @@ agregue por medio de la interfaz administrativa, los siguientes Productos:
     for producto in productos:
         print(f"Producto: {producto.nombre}, Laboratorio: {producto.laboratorio}")
 
+## Parte 3
 
+30. Realice las siguientes modificaciones al modelo, agregando los siguientes campos:
+    La nueva migración se llamará actualizado_campos.
+    ● Laboratorio:
+    ○ ciudad: cadena de caracteres.
+    ○ pais: cadena de caracteres.
+    ● DirectorGeneral:
+    ○ especialidad: cadena de caracteres.
+    Muestre todas las migraciones realizadas.
+
+    ```bash
+    # En laboratorio/models.py
+
+    from django.db import models
+    from django.core.exceptions import ValidationError
+    from datetime import date
+
+    class Laboratorio(models.Model):
+        nombre = models.CharField(max_length=255)
+        ciudad = models.CharField(max_length=255, null=True, blank=True) # Nuevo campo
+        pais = models.CharField(max_length=255, null=True, blank=True)    # Nuevo campo
+
+        def __str__(self):
+            return self.nombre
+
+
+    class DirectorGeneral(models.Model):
+        nombre = models.CharField(max_length=255)
+        laboratorio = models.OneToOneField(Laboratorio, on_delete=models.CASCADE)
+        especialidad = models.CharField(max_length=255, null=True, blank=True) 
+
+        def __str__(self):
+            return self.nombre
+
+
+    class Producto(models.Model):
+        nombre = models.CharField(max_length=255)
+        laboratorio = models.ForeignKey(Laboratorio, on_delete=models.CASCADE)
+        f_fabricacion = models.DateField(null=True, blank=True)
+        p_costo = models.DecimalField(max_digits=12, decimal_places=2)
+        p_venta = models.DecimalField(max_digits=12, decimal_places=2)
+
+        def clean(self):
+            if self.f_fabricacion:
+                if self.f_fabricacion < date(2015, 1, 1):
+                    raise ValidationError("La fecha de fabricación no puede ser anterior a 2015.")
+
+        def __str__(self):
+            return self.nombre
+31. Crea la migracion
+    ```bash
+    python manage.py makemigrations 
+
+32. Aplicamos la migraciòn
+    ```bash
+    python manage.py migrate
 
