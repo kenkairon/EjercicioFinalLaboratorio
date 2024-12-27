@@ -1,5 +1,6 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.http import HttpResponse
 from .models import Laboratorio
 
 class ListarLaboratorio(ListView):
@@ -7,20 +8,19 @@ class ListarLaboratorio(ListView):
     template_name = 'laboratorio/lista_laboratorio.html'
     context_object_name = 'laboratorios'
 
-def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-    # Obtener el contador de visitas desde las cookies del usuario
-    visitas = int(self.request.COOKIES.get('visitas', 0)) + 1
-    context['contador_visitas'] = visitas  # Agregar al contexto
+        # Obtener el contador de visitas desde las cookies del usuario
+        visitas = int(self.request.COOKIES.get('visitas', 0)) + 1
+        context['contador_visitas'] = visitas  # Agregar al contexto
+        return context
 
-    return context
-
-def render_to_response(self, context, **response_kwargs):
-    # Sobrescribir para configurar la cookie
-    response = super().render_to_response(context, **response_kwargs)
-    response.set_cookie('visitas', context['contador_visitas'], max_age=60*60*24*30)  # 30 días
-    return response
+    def render_to_response(self, context, **response_kwargs):
+        # Sobrescribir para configurar la cookie
+        response = super().render_to_response(context, **response_kwargs)
+        response.set_cookie('visitas', context['contador_visitas'], max_age=60*60*24*30)  # 30 días
+        return response
 
 class DetalleLaboratorio(DetailView):
     model = Laboratorio
