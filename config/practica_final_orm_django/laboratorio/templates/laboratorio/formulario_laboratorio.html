@@ -15,7 +15,7 @@
         <a href="{% url 'laboratorios' %}">&#x1F860; Volver</a>
     </div>
     <div class="cuerpo-tarjeta">
-        <h1>{{ titulo }}</h1> <!-- Título dinámico -->
+        <h1>{{ titulo }} </h1> <!-- Título dinámico -->
         <form method="POST" action="">
             {% csrf_token %}
             {{ form.as_p }}

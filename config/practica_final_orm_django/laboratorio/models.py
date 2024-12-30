@@ -3,10 +3,11 @@ from django.core.exceptions import ValidationError
 from datetime import date
 
 class Laboratorio(models.Model):
-    nombre = models.CharField(max_length=255)
-    ciudad = models.CharField(max_length=255, null=True, blank=True) # Nuevo campo
-    pais = models.CharField(max_length=255, null=True, blank=True)    # Nuevo campo
+    nombre = models.CharField(max_length=255, unique=True)
+    ciudad = models.CharField(max_length=255, null=True, blank=True)
+    pais = models.CharField(max_length=255, null=True, blank=True)
 
+   
     def __str__(self):
         return self.nombre
 

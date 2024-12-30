@@ -2,15 +2,29 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.urls import reverse_lazy
 from django.http import HttpResponse
 from .models import Laboratorio
+from django.db.models import F
+import re
+
 
 class ListarLaboratorio(ListView):
     model = Laboratorio
     template_name = 'laboratorio/lista_laboratorio.html'
     context_object_name = 'laboratorios'
 
+    def ordenar_por_nombre(self, queryset):
+        # Función para extraer números y manejar espacios correctamente
+        def clave_orden(nombre):
+            return [int(texto) if texto.isdigit() else texto.lower().strip() for texto in re.split(r'(\d+)', nombre)]
+
+        # Ordenar usando la clave personalizada
+        return sorted(queryset, key=lambda obj: clave_orden(obj.nombre))
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return self.ordenar_por_nombre(queryset)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         # Obtener el contador de visitas desde las cookies del usuario
         visitas = int(self.request.COOKIES.get('visitas', 0)) + 1
         context['contador_visitas'] = visitas  # Agregar al contexto
@@ -19,7 +33,7 @@ class ListarLaboratorio(ListView):
     def render_to_response(self, context, **response_kwargs):
         # Sobrescribir para configurar la cookie
         response = super().render_to_response(context, **response_kwargs)
-        response.set_cookie('visitas', context['contador_visitas'], max_age=60*60*24*30)  # 30 días
+        response.set_cookie('visitas', context['contador_visitas'], max_age=60 * 60 * 24 * 30)  # 30 días
         return response
 
 class DetalleLaboratorio(DetailView):
