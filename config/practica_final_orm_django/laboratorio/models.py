@@ -18,7 +18,7 @@ class DirectorGeneral(models.Model):
     especialidad = models.CharField(max_length=255, null=True, blank=True) 
 
     def __str__(self):
-        return self.nombre
+        return f"{self.nombre} - {self.laboratorio}"
 
 
 class Producto(models.Model):
