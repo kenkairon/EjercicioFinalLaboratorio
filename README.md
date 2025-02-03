@@ -494,24 +494,63 @@ agregue por medio de la interfaz administrativa, los siguientes Productos:
 38. Configuración de  urls  laborario/urls.py
     ```bash
     from django.urls import path
-    from .views import ListarLaboratorio, CrearLaboratorio, EditarLaboratorio, EliminarLaboratorio
+    from .views import ListarLaboratorio, CrearLaboratorio, EditarLaboratorio, EliminarLaboratorio, DetalleLaboratorio
 
     urlpatterns = [
         path('', ListarLaboratorio.as_view(), name='laboratorios'),
         path('crear/', CrearLaboratorio.as_view(), name='crear-laboratorio'),
         path('editar/<int:pk>/', EditarLaboratorio.as_view(), name='editar-laboratorio'),
+        path('<int:pk>/', DetalleLaboratorio.as_view(), name='detalle'),
         path('eliminar/<int:pk>/', EliminarLaboratorio.as_view(), name='eliminar-laboratorio'),
     ]
 39. Configuración de urls de config/practica_final_orm_django/practica_final_orm_orm
     ```bash
     from django.contrib import admin
     from django.urls import path, include
+    from django.shortcuts import redirect
+
 
     urlpatterns = [
+        path('', lambda request: redirect('laboratorios', permanent=True)),
         path('admin/', admin.site.urls),
-        path('',include('laboratorio.urls')),
+        path('laboratorios/', include('laboratorio.urls')),  
     ]
 
-40. Accedemos a las ruta principal (http://127.0.0.1:8000/)
+40. Ejecutamos el test en laboratorio/test.py
+    ```bash
+    from django.test import TestCase
+    from django.urls import reverse
+    from .models import Laboratorio
+
+    class LaboratorioTests(TestCase):
+        @classmethod
+        def setUpTestData(cls):
+            # Crear datos iniciales para pruebas
+            cls.laboratorio = Laboratorio.objects.create(
+                nombre='Laboratorio de Prueba',
+                ciudad='Ciudad de Prueba',
+                pais='País de Prueba'
+            )
+
+        # 1. Verificar datos en la base de datos simulada
+        def test_modelo_laboratorio(self):
+            lab = Laboratorio.objects.get(id=self.laboratorio.id)
+            self.assertEqual(lab.nombre, 'Laboratorio de Prueba')
+            self.assertEqual(lab.ciudad, 'Ciudad de Prueba')
+            self.assertEqual(lab.pais, 'País de Prueba')
+
+        # 2. Verificar respuesta HTTP 200 para URL de detalle
+        def test_url_detalle_status_code(self):
+            response = self.client.get(f'/laboratorios/{self.laboratorio.pk}/')
+            self.assertEqual(response.status_code, 200)
+
+        # 3. Verificar vista usando reverse, template y contenido
+        def test_vista_detalle(self):
+            response = self.client.get(reverse('detalle', args=[self.laboratorio.pk]))
+            self.assertEqual(response.status_code, 200)
+            self.assertTemplateUsed(response, 'laboratorio/laboratorio.html')
+            self.assertContains(response, self.laboratorio.nombre)
+
+41. Accedemos a las ruta principal (http://127.0.0.1:8000/)
     ```bash
     python manage.py runserver
